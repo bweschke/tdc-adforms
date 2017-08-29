@@ -18,15 +18,18 @@ import org.springframework.stereotype.Component;
 
 import com.dbpfootball.adsform.paypalProcessor;
 
+
 @Component
 @Path("/ws-sender")
 public class Endpoint {
+	
+		@Autowired
+		paypalProcessor ppal;
 		
 		private Logger logger = LoggerFactory.getLogger(Endpoint.class);	
 		
 		@GET
 		public String message() {
-			paypalProcessor ppal = new paypalProcessor();
 			ppal.sendPayment();
 			return "Hiiiiiiiiiiiiiiiiiiiiiiiiii! ";
 		}	

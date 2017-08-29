@@ -10,16 +10,24 @@ import com.paypal.api.payments.Details;
 import com.paypal.api.payments.FundingInstrument;
 import com.paypal.api.payments.Payer;
 import com.paypal.api.payments.Payment;
+import com.paypal.api.payments.PaymentExecution;
 import com.paypal.api.payments.Transaction;
 import com.paypal.base.rest.APIContext;
 import com.paypal.base.rest.PayPalRESTException;
 
 public class paypalProcessor {
 
+	String PAYPAL_CLIENT_ID = "";
+	String PAYPAL_CLIENT_SECRET = "";
+
+	public paypalProcessor(String clientId, String clientSecret) {
+		PAYPAL_CLIENT_ID = clientId;
+		PAYPAL_CLIENT_SECRET = clientSecret;
+	}
 	
 	
 	public void sendPayment() {
-
+		
 		// Set address info
 		Address billingAddress = new Address();
 		billingAddress.setCity("Secaucus");
@@ -62,7 +70,7 @@ public class paypalProcessor {
 		// Set funding instrument
 		FundingInstrument fundingInstrument = new FundingInstrument();
 		fundingInstrument.setCreditCard(creditCard);
-
+		
 		List<FundingInstrument> fundingInstrumentList = new ArrayList<FundingInstrument>();
 		fundingInstrumentList.add(fundingInstrument);
 
@@ -74,15 +82,16 @@ public class paypalProcessor {
 		try {
 			  // Create payment
 			
-			   String SANDBOX_CLIENT_ID = "Abxa1gTxVTpf98OuXWTXFvqoPOqPx1mu4SRrfTvvBNE1B3Ia8cxXuJ5-yQ7mLLv9ldCHXU7PiNAfy82S";
-			   String SANDBOX_CLIENT_SECRET = "ECYPxzKNCLUbPw-qQkF4laVOgFKGxiKbOP2up_bnhF6UjBd2D-IkLglsYpO7no7z4O5P6rc3a_5xRGYh";
-			   APIContext SANDBOX_CONTEXT = new APIContext(SANDBOX_CLIENT_ID, SANDBOX_CLIENT_SECRET, "sandbox");
+			   APIContext PAYPAL_CONTEXT = new APIContext(PAYPAL_CLIENT_ID, PAYPAL_CLIENT_SECRET, "live");
 			
 			   Payment payment = new Payment();
 			   payment.setIntent("sale");
 			   payment.setPayer(payer);
-			   Payment createdPayment = payment.create(SANDBOX_CONTEXT);
+			   payment.setTransactions(transactions);
+			   Payment createdPayment = payment.create(PAYPAL_CONTEXT);
 			   System.out.println("Created payment with id = " + createdPayment.getId());
+			   PaymentExecution paymentexecution = new PaymentExecution();
+			   
 			} catch (PayPalRESTException e) {
 			  System.err.println(e.getDetails());
 			}		
