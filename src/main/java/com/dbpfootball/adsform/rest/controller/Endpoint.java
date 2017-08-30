@@ -72,6 +72,12 @@ public class Endpoint {
 									"Credit Card Expiration Month: "+formIn.getCcexpmo()+"\n"+
 									"Credit Card Expiration Year: "+formIn.getCcexpyr()+"\n";
 				
+				if (response.get("result").equals("failure")) {
+					emailBody = emailBody + "PayPal Error Message for Rejection: "+response.get("errormsg")+"\n";
+				} else {
+					emailBody = emailBody + "PayPal Success Payment ID: "+response.get("paymentid")+"\n";
+				}
+				
 				emailSender.sendEmail("bweschke@btwtech.com", emailBody, emailSubject);
 				emailSender.sendEmail("dbp.tdc.2017ads@gmail.com", emailBody, emailSubject);
 				emailSender.sendEmail("davebrennan@comast.net", emailBody, emailSubject);
