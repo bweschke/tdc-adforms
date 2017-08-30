@@ -33,7 +33,7 @@ public class sesemail {
       + "using the AWS SDK for Java.";
 
 
-  public void sendEmail() throws IOException {
+  public void sendEmail(String emailTo, String emailBody, String emailSubject) throws IOException {
 
     try {
       AmazonSimpleEmailService client = 
@@ -43,13 +43,11 @@ public class sesemail {
             .withRegion(Regions.US_EAST_1).build();
       SendEmailRequest request = new SendEmailRequest()
           .withDestination(
-              new Destination().withToAddresses(TO))
+              new Destination().withToAddresses(emailTo))
           .withMessage(new Message()
               .withBody(new Body()
-                  .withHtml(new Content()
-                      .withCharset("UTF-8").withData(HTMLBODY))
                   .withText(new Content()
-                      .withCharset("UTF-8").withData(TEXTBODY)))
+                      .withCharset("UTF-8").withData(emailBody)))
               .withSubject(new Content()
                   .withCharset("UTF-8").withData(SUBJECT)))
           .withSource(FROM);
