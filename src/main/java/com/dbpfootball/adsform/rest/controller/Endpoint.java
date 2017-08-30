@@ -1,6 +1,7 @@
 package com.dbpfootball.adsform.rest.controller;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -17,7 +18,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import com.dbpfootball.adsform.paypalProcessor;
-
+import com.dbpfootball.adsform.domain.formsubmission;
 
 @Component
 @Path("/ws-sender")
@@ -33,5 +34,16 @@ public class Endpoint {
 			ppal.sendPayment();
 			return "Hiiiiiiiiiiiiiiiiiiiiiiiiii! ";
 		}	
+		
+		@POST
+		@Consumes(MediaType.APPLICATION_JSON)
+		@Produces(MediaType.APPLICATION_JSON)
+		public Map<String, String> processForm(formsubmission formIn) {
+			Map<String, String> response = new HashMap<String, String>();
+
+			response = ppal.sendFormPayment(formIn);
+			
+			return response;
+		}		
 	
 }
