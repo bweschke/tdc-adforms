@@ -49,7 +49,7 @@ public class sesemail {
                   .withText(new Content()
                       .withCharset("UTF-8").withData(emailBody)))
               .withSubject(new Content()
-                  .withCharset("UTF-8").withData(SUBJECT)))
+                  .withCharset("UTF-8").withData(emailSubject)))
           .withSource(FROM);
           // Comment or remove the next line if you are not using a
           // configuration set
