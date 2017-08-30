@@ -1,5 +1,6 @@
 package com.dbpfootball.adsform.rest.controller;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -18,6 +19,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import com.dbpfootball.adsform.paypalProcessor;
+import com.dbpfootball.adsform.sesemail;
 import com.dbpfootball.adsform.domain.formsubmission;
 
 @Component
@@ -42,6 +44,15 @@ public class Endpoint {
 			Map<String, String> response = new HashMap<String, String>();
 
 			response = ppal.sendFormPayment(formIn);
+			
+			sesemail emailSender = new sesemail();
+			
+			try {
+				emailSender.sendEmail();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			
 			return response;
 		}		
