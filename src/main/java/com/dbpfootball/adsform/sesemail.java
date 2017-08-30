@@ -17,7 +17,7 @@ public class sesemail {
 
   // The configuration set to use for this email. If you do not want to use a
   // configuration set, comment the next line and line 60.
-  static final String CONFIGSET = "ConfigSet";
+  // static final String CONFIGSET = "ConfigSet";
 
   // The subject line for the email.
   static final String SUBJECT = "Amazon SES test (AWS SDK for Java)";
@@ -52,10 +52,10 @@ public class sesemail {
                       .withCharset("UTF-8").withData(TEXTBODY)))
               .withSubject(new Content()
                   .withCharset("UTF-8").withData(SUBJECT)))
-          .withSource(FROM)
+          .withSource(FROM);
           // Comment or remove the next line if you are not using a
           // configuration set
-          .withConfigurationSetName(CONFIGSET);
+          //.withConfigurationSetName(CONFIGSET);
       client.sendEmail(request);
       System.out.println("Email sent!");
     } catch (Exception ex) {
