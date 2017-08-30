@@ -33,7 +33,7 @@ public class paypalProcessor {
 		Address billingAddress = new Address();
 		billingAddress.setCity(formIn.getCccity());
 		billingAddress.setCountryCode("US");
-		billingAddress.setLine1(formIn.getAddress());
+		billingAddress.setLine1(formIn.getCcaddress());
 		billingAddress.setPostalCode(formIn.getCczip());
 		billingAddress.setState(formIn.getCcstate());
 		
