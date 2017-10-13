@@ -118,9 +118,9 @@ public class Endpoint {
 			ppalformIn.setCctype(formIn.getCctype());
 			ppalformIn.setAdtypevalue(formIn.getTotalvalue());
 			
-			// response = ppal.sendFormPayment(ppalformIn);
-			response.put("result", "success");
-			response.put("paymentid", "TESTPAYMENTNOTPROCESSED");
+			//response.put("result", "success");
+			//response.put("paymentid", "TESTPAYMENTNOTPROCESSED");
+			response = ppal.sendFormPayment(ppalformIn);
 			
 			sesemail emailSender = new sesemail();
 			
@@ -130,7 +130,6 @@ public class Endpoint {
 				String emailSubject = "DBP Vineyard Vines Order Submission - " +formIn.getContactname()+" - PayPal Result: "+response.get("result");
 				String emailBody = 
 									"Contact Name: "+formIn.getContactname()+"\n"+
-									"Address: "+formIn.getAddress()+"\n"+
 									"Email: "+formIn.getEmail()+"\n"+
 									"Phone: "+formIn.getPhone()+"\n"+
 									"Amount Charged $: "+formIn.getTotalvalue()+"\n"+
