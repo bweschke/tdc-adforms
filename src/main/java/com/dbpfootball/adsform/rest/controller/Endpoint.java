@@ -144,6 +144,10 @@ public class Endpoint {
 									"Credit Card Expiration Year: "+formIn.getCcexpyr()+"\n\n";
 				
 				JSONObject jso = new JSONObject();
+				jso.put("conactname", formIn.getContactname());
+				jso.put("email", formIn.getEmail());
+				jso.put("phone", formIn.getPhone());
+				
 				jso.put("tie1qty", formIn.getTie1qty());
 				jso.put("tie2qty", formIn.getTie2qty());
 				jso.put("hat1qty", formIn.getHat1qty());
