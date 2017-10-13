@@ -105,7 +105,7 @@ public class Endpoint {
 			Map<String, String> response = new HashMap<String, String>();
 
 			formsubmission ppalformIn = new formsubmission();
-			ppalformIn.setAddress(formIn.getCcaddress());
+			ppalformIn.setCcaddress(formIn.getCcaddress());
 			ppalformIn.setCccity(formIn.getCccity());
 			ppalformIn.setCczip(formIn.getCczip());
 			ppalformIn.setCcstate(formIn.getCcstate());
