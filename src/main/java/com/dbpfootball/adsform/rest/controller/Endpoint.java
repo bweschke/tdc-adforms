@@ -118,7 +118,9 @@ public class Endpoint {
 			ppalformIn.setCctype(formIn.getCctype());
 			ppalformIn.setAdtypevalue(formIn.getTotalvalue());
 			
-			response = ppal.sendFormPayment(ppalformIn);
+			// response = ppal.sendFormPayment(ppalformIn);
+			response.put("result", "success");
+			response.put("paymentid", "TESTPAYMENTNOTPROCESSED");
 			
 			sesemail emailSender = new sesemail();
 			
