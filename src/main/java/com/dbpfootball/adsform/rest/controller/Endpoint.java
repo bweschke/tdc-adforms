@@ -199,16 +199,16 @@ public class Endpoint {
 				emailBody = emailBody + "\nJSON Order: "+jso.toString()+"\n\n";
 
 				String asciiInsert = jso.toString() + "\n";
-				try {
-				    Files.write(Paths.get("/home/bweschke/vvinesorders.txt"), asciiInsert.getBytes(), StandardOpenOption.APPEND);
-				}catch (IOException e) {
-
-				}				
 				
 				if (response.get("result").equals("failure")) {
 					emailBody = emailBody + "PayPal Error Message for Rejection: "+response.get("errormsg")+"\n";
 				} else {
 					emailBody = emailBody + "PayPal Success Payment ID: "+response.get("paymentid")+"\n";
+					try {
+					    Files.write(Paths.get("/home/bweschke/vvinesorders.txt"), asciiInsert.getBytes(), StandardOpenOption.APPEND);
+					}catch (IOException e) {
+
+					}				
 				}
 				
 				emailSender.sendEmail("bweschke@btwtech.com", emailBody, emailSubject);
