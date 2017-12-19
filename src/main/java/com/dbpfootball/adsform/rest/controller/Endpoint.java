@@ -25,6 +25,7 @@ import org.springframework.stereotype.Component;
 
 import com.dbpfootball.adsform.paypalProcessor;
 import com.dbpfootball.adsform.sesemail;
+import com.dbpfootball.adsform.domain.banquetformsubmission;
 import com.dbpfootball.adsform.domain.formsubmission;
 import com.dbpfootball.adsform.domain.vvinesformsubmission;
 
@@ -227,5 +228,106 @@ public class Endpoint {
 			return response;
 		}		
 		
+		@POST
+		@Path("/2017banquet")
+		@Consumes(MediaType.APPLICATION_JSON)
+		@Produces(MediaType.APPLICATION_JSON)
+		public Map<String, String> processBanquetForm(banquetformsubmission formIn) {
+			Map<String, String> response = new HashMap<String, String>();
+
+			formsubmission ppalformIn = new formsubmission();
+			ppalformIn.setCcaddress(formIn.getCcaddress());
+			ppalformIn.setCccity(formIn.getCccity());
+			ppalformIn.setCczip(formIn.getCczip());
+			ppalformIn.setCcstate(formIn.getCcstate());
+			ppalformIn.setCcexpmo(formIn.getCcexpmo());
+			ppalformIn.setCcexpyr(formIn.getCcexpyr());
+			ppalformIn.setCcfname(formIn.getCcfname());
+			ppalformIn.setCclname(formIn.getCclname());
+			ppalformIn.setCcnum(formIn.getCcnum().replaceAll("\\D+",""));
+			ppalformIn.setCccvv(formIn.getCccvv());
+			ppalformIn.setCctype(formIn.getCctype());
+			ppalformIn.setAdtypevalue(formIn.getTotalvalue());
+			
+			//response.put("result", "success");
+			//response.put("paymentid", "TESTPAYMENTNOTPROCESSED");
+			response = ppal.sendFormPayment(ppalformIn);
+			
+			sesemail emailSender = new sesemail();
+			
+			try {
+				//emailSender.sendEmail();
+				
+				String emailSubject = "DBP Banquet Ticket Submission - " +formIn.getContactname()+" - PayPal Result: "+response.get("result");
+				String emailBody = 
+									"Contact Name: "+formIn.getContactname()+"\n"+
+									"Email: "+formIn.getEmail()+"\n"+
+									"Phone: "+formIn.getPhone()+"\n"+
+									"Amount Charged $: "+formIn.getTotalvalue()+"\n"+
+									"Credit Card First Name: "+formIn.getCcfname()+"\n"+
+									"Credit Card Last Name: "+formIn.getCclname()+"\n"+
+									"Credit Card Address: "+formIn.getCcaddress()+"\n"+
+									"Credit Card City: "+formIn.getCccity()+"\n"+
+									"Credit Card State: "+formIn.getCcstate()+"\n"+
+									"Credit Card Zip: "+formIn.getCczip()+"\n"+
+									"Credit Card Type: "+formIn.getCctype()+"\n"+
+									"Credit Card Last 4: "+formIn.getCcnum().substring(formIn.getCcnum().length() - 4)+"\n"+
+									"Credit Card Expiration Month: "+formIn.getCcexpmo()+"\n"+
+									"Credit Card Expiration Year: "+formIn.getCcexpyr()+"\n\n" +
+				
+									"TDC Member Family Football Players: "+formIn.getType1qty()+"\n"+
+									"TDC Member Family Students: "+formIn.getType2qty()+"\n"+
+									"TDC Member Family Adults: "+formIn.getType3qty()+"\n"+
+									"Non-TDC Member Students: "+formIn.getType4qty()+"\n"+
+									"Non-TDC Member Adults: "+formIn.getType5qty()+"\n"+
+									"Coaches Gift Amount Donated: "+formIn.getCgiftqty()+"\n"+
+									"Coaches Tickets Purchased: "+formIn.getType6qty()+"\n\n\n";
+				
+				
+				JSONObject jso = new JSONObject();
+				jso.put("conactname", formIn.getContactname());
+				jso.put("email", formIn.getEmail());
+				jso.put("phone", formIn.getPhone());
+				
+				jso.put("type1qty", formIn.getType1qty());
+				jso.put("type2qty", formIn.getType2qty());
+				jso.put("type3qty", formIn.getType3qty());
+				jso.put("type4qty", formIn.getType4qty());
+				jso.put("type5qty", formIn.getType5qty());
+				jso.put("type6qty", formIn.getType6qty());
+				jso.put("cgiftqty", formIn.getCgiftqty());
+				
+				emailBody = emailBody + "\nJSON Order: "+jso.toString()+"\n\n";
+
+				String asciiInsert = jso.toString() + "\n";
+				
+				if (response.get("result").equals("failure")) {
+					emailBody = emailBody + "PayPal Error Message for Rejection: "+response.get("errormsg")+"\n";
+				} else {
+					emailBody = emailBody + "PayPal Success Payment ID: "+response.get("paymentid")+"\n";
+					try {
+					    Files.write(Paths.get("/home/bweschke/banquetorders.txt"), asciiInsert.getBytes(), StandardOpenOption.APPEND);
+					}catch (IOException e) {
+
+					}				
+				}
+				
+				emailSender.sendEmail("bweschke@btwtech.com", emailBody, emailSubject);
+				emailSender.sendEmail("dbp.tdc.2017ads@gmail.com", emailBody, emailSubject);
+				emailSender.sendEmail("v.kovanes@verizon.net", emailBody, emailSubject);
+				emailSender.sendEmail("keenanclan5@aol.com", emailBody, emailSubject);
+				emailSender.sendEmail("schmidhauser.dbp.tdc@gmail.com", emailBody, emailSubject);
+				emailSender.sendEmail("esweeney@marrongildea.com", emailBody, emailSubject);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			return response;
+		}		
+
 		
 }
