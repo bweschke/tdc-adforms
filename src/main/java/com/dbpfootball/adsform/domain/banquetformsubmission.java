@@ -26,6 +26,8 @@ public class banquetformsubmission {
 	String type6qty;
 	String cgiftqty;
 	
+	String attendees;
+	
 	String totalvalue;
 	
 	public String getContactname() {
@@ -165,6 +167,12 @@ public class banquetformsubmission {
 	}
 	public void setCgiftqty(String cgiftqty) {
 		this.cgiftqty = cgiftqty;
+	}
+	public String getAttendees() {
+		return attendees;
+	}
+	public void setAttendees(String attendees) {
+		this.attendees = attendees;
 	}
 	
 }

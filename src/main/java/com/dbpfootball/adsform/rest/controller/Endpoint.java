@@ -279,7 +279,8 @@ public class Endpoint {
 									"TDC Member Family Students: "+formIn.getType2qty()+"\n"+
 									"TDC Member Family Adults: "+formIn.getType3qty()+"\n"+
 									"Non-TDC Member Students: "+formIn.getType4qty()+"\n"+
-									"Non-TDC Member Adults: "+formIn.getType5qty()+"\n"+
+									"Non-TDC Member Adults: "+formIn.getType5qty()+"\n\n\n"+
+									"Attendees' Names: \n"+formIn.getAttendees()+"\n\n"+
 									"Coaches Gift Amount Donated: "+formIn.getCgiftqty()+"\n"+
 									"Coaches Tickets Purchased: "+formIn.getType6qty()+"\n\n\n";
 				
@@ -296,6 +297,8 @@ public class Endpoint {
 				jso.put("type5qty", formIn.getType5qty());
 				jso.put("type6qty", formIn.getType6qty());
 				jso.put("cgiftqty", formIn.getCgiftqty());
+				
+				jso.put("attendees", formIn.getAttendees());
 				
 				emailBody = emailBody + "\nJSON Order: "+jso.toString()+"\n\n";
 
