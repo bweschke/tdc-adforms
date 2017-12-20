@@ -99,7 +99,11 @@ public class paypalProcessor {
 			} catch (PayPalRESTException e) {
 			  System.err.println(e.getDetails());
 			   response.put("result", "failure");
-			   response.put("errormsg", e.getDetails().toString());
+			   if (e.getDetails() == null) {
+				   response.put("errormsg", "");
+			   } else {
+				   response.put("errormsg", e.getDetails().toString());
+			   }
 			   return response;
 			}		
 		
